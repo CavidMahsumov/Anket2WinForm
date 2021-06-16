@@ -17,6 +17,7 @@ namespace ClassTask
         public Form1()
         {
             InitializeComponent();
+            listBox1.Text = string.Empty;
         }
 
 
@@ -48,7 +49,6 @@ namespace ClassTask
 
         private void button1_Click(object sender, EventArgs e)
         {
-            isClikde = true;
             listBox1.Items.Add(new Human
             {
                 Name = NameTextBox.Text,
@@ -58,18 +58,20 @@ namespace ClassTask
                 Surname = SurnameTextBox.Text
             });
             listBox1.DisplayMember = "Name";
-            //if (isClikde)
-            //{
-            //    button1.Location = new Point(293, 336);
-            //    isClikde = false;
-            //}
-            //else
-            //{
-            //    button1.Location = new Point(293, 273);
 
-            //}
-            button1.Location = new Point(293, 336);
-            button2.Location = new Point(293, 273);
+            if (!isClikde)
+            {
+                button1.Location = new Point(293, 336);
+                button2.Location = new Point(293, 273);
+                isClikde =true;
+
+            }
+            else
+            {
+                button2.Location = new Point(293, 336);
+                button1.Location = new Point(293, 273);
+                isClikde = false;
+            }
             NameTextBox.Text = string.Empty;
             SurnameTextBox.Text = string.Empty;
             emailtextbox.Text = string.Empty;
@@ -123,17 +125,46 @@ namespace ClassTask
 
         private void button2_Click(object sender, EventArgs e)
         {
-            isClikde = true;
-            foreach (var item in listBox1.SelectedItems)
+            try
             {
-                var human = item as Human;
-                human.Name = NameTextBox.Text;
-                human.Surname = SurnameTextBox.Text;
-            }
+                foreach (var item in listBox1.SelectedItems)
+                {
+                    var human = item as Human;
+                    listBox1.Items.Remove(human);
+                    human.Name = NameTextBox.Text;
+                    human.Surname = SurnameTextBox.Text;
+                    human.date = dateTimePicker1.Value;
+                    human.Email = emailtextbox.Text;
+                    human.Phone = Phonetextbox.Text;
+                    listBox1.Items.Add(human);
+                    NameTextBox.Text = string.Empty;
+                    SurnameTextBox.Text = string.Empty;
+                    emailtextbox.Text = string.Empty;
+                    Phonetextbox.Text = string.Empty;
+                    dateTimePicker1.Value = DateTime.Now;
+                }
 
-            listBox1.Items.RemoveAt(1);
-            button2.Location = new Point(293, 336);
-            button1.Location = new Point(293, 273);
+            }
+            catch (Exception)
+            {
+
+            }
+           
+
+            if (!isClikde)
+            {
+                button1.Location = new Point(293, 336);
+                button2.Location = new Point(293, 273);
+                isClikde = true;
+            }
+            else
+            {
+                button2.Location = new Point(293, 336);
+                button1.Location = new Point(293, 273);
+                isClikde = false;
+
+
+            }
         }
     }
 }
